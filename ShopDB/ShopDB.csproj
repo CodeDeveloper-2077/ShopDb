@@ -85,6 +85,9 @@
     <Compile Include="Entities\ProductTitle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IPersonService.cs" />
+    <Compile Include="Services\PersonService.cs" />
+    <Compile Include="Services\ProductService.cs" />
     <Compile Include="ShopDBContext.cs" />
     <Compile Include="Entities\Street.cs" />
     <Compile Include="Entities\Supermarket.cs" />
