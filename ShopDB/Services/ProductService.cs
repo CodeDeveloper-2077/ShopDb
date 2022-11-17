@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ShopDB.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-
         private readonly ShopDBContext _context;
 
         public ProductService(ShopDBContext context)
@@ -37,20 +37,17 @@ namespace ShopDB.Services
             return product;
         }
 
-        public Product GetProduct(string comment)
+        public Product GetProduct(Func<Product, bool> predicate)
         {
-            if (comment == String.Empty || comment == null)
-                throw new ArgumentNullException($"Argument {nameof(comment)} can't be empty!");
-
-            if (!_context.Products.Any(p => p.Comment == comment))
+            if (!_context.Products.Any(predicate))
                 throw new ArgumentException("This product hasn't been found!");
 
-            return _context.Products.FirstOrDefault(p => p.Comment == comment);
+            return _context.Products.FirstOrDefault(predicate);
         }
 
-        public async Task<Product> GetProductAsync(string comment)
+        public async Task<Product> GetProductAsync(Expression<Func<Product, bool>> expression)
         {
-            return await _context.Products.FirstOrDefaultAsync(p => p.Comment == comment);
+            return await _context.Products.FirstOrDefaultAsync(expression);
         }
 
         public IEnumerable<object> GetProductsFromCategory(int productCategoryId)
@@ -68,9 +65,8 @@ namespace ShopDB.Services
                                         .ToList();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsFromCategoryAsync(object state)
+        public async Task<IEnumerable<Product>> GetProductsFromCategoryAsync(int productCategoryId)
         {
-            int productCategoryId = (int)state;
             return await _context.Products
                                     .Where(p => p.ProductTitle.ProductCategoryId == productCategoryId)
                                     .ToListAsync();
