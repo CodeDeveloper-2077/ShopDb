@@ -11,11 +11,11 @@ namespace ShopDB.Services
     public interface IPersonService
     {
         Person AddPerson(int id, string name, string surname);
-        Person GetPerson(Func<Person, bool> predicate);
+        Person GetPerson(Expression<Func<Person, bool>> predicate);
         Task<Person> GetPersonAsync(Expression<Func<Person, bool>> expression);
+        IEnumerable<Person> GetPeople(Expression<Func<Person, bool>> predicate);
+        Task<IEnumerable<Person>> GetPeopleAsync(Expression<Func<Person, bool>> expression);
         List<Person> GetSortedPeople();
         Task<List<Person>> GetSortedPeopleAsync();
-        IEnumerable<Person> GetPeopleOlderThanDate(DateTime date);
-        Task<IEnumerable<Person>> GetPeopleOlderThanDateAsync(object state);
     }
 }

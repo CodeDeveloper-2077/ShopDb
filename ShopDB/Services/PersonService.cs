@@ -53,22 +53,21 @@ namespace ShopDB.Services
             return await people.ToListAsync();
         }
 
-        public IEnumerable<Person> GetPeopleOlderThanDate(DateTime date)
+        public IEnumerable<Person> GetPeople(Expression<Func<Person, bool>> predicate)
         {
             return _context.People
-                                    .Where(p => p.BirthDate.Year > date.Year)
+                                    .Where(predicate)
                                     .ToList();
         }
 
-        public async Task<IEnumerable<Person>> GetPeopleOlderThanDateAsync(object state)
+        public async Task<IEnumerable<Person>> GetPeopleAsync(Expression<Func<Person, bool>> expression)
         {
-            DateTime date = (DateTime)state;
             return await _context.People
-                                    .Where(p => p.BirthDate.Year > date.Year)
+                                    .Where(expression)
                                     .ToListAsync();
         }
 
-        public Person GetPerson(Func<Person, bool> predicate)
+        public Person GetPerson(Expression<Func<Person, bool>> predicate)
         {
             return _context.People.FirstOrDefault(predicate);
         }

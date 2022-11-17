@@ -37,7 +37,7 @@ namespace ShopDB.Services
             return product;
         }
 
-        public Product GetProduct(Func<Product, bool> predicate)
+        public Product GetProduct(Expression<Func<Product, bool>> predicate)
         {
             if (!_context.Products.Any(predicate))
                 throw new ArgumentException("This product hasn't been found!");
@@ -50,26 +50,16 @@ namespace ShopDB.Services
             return await _context.Products.FirstOrDefaultAsync(expression);
         }
 
-        public IEnumerable<object> GetProductsFromCategory(int productCategoryId)
+        public IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> predicate)
         {
-            if (productCategoryId == 0)
-                throw new ArgumentNullException($"Value {nameof(productCategoryId)} cannot be null!");
-
-            var productsFromCategory = from p in _context.Products.ToList()
-                                       join pt in _context.ProductTitles.ToList()
-                                           on p.ProductTitleId equals pt.Id
-                                       select new { Product = p, ProductCategoryId = pt.ProductCategoryId };
-
-            return productsFromCategory
-                                        .Where(p => p.ProductCategoryId == productCategoryId)
-                                        .ToList();
+            return _context.Products.Where(predicate);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsFromCategoryAsync(int productCategoryId)
+        public async Task<IEnumerable<Product>> GetProductsAsync(Expression<Func<Product, bool>> expression)
         {
             return await _context.Products
-                                    .Where(p => p.ProductTitle.ProductCategoryId == productCategoryId)
-                                    .ToListAsync();
+                                            .Where(expression)
+                                            .ToListAsync();
         }
 
         public decimal GetTotalPrice()

@@ -10,10 +10,10 @@ namespace ShopDB.Services
     public interface IProductService
     {
         Product AddProduct(int? productTitleId, decimal price, string comment);
-        Product GetProduct(Func<Product, bool> predicate);
+        Product GetProduct(Expression<Func<Product, bool>> predicate);
         Task<Product> GetProductAsync(Expression<Func<Product, bool>> expression);
-        IEnumerable<object> GetProductsFromCategory(int productCategoryId);
-        Task<IEnumerable<Product>> GetProductsFromCategoryAsync(int productCategoryId);
+        IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> predicate);
+        Task<IEnumerable<Product>> GetProductsAsync(Expression<Func<Product, bool>> expression);
         decimal GetTotalPrice();
         Task<decimal> GetTotalPriceAsync();
     }
