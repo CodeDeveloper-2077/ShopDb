@@ -71,7 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbAsyncQueryProvider\ShopDbAsyncQueryProvider.cs" />
-    <Compile Include="ShopDBContextTests.cs" />
+    <Compile Include="PersonServiceTests.cs" />
+    <Compile Include="ProductServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
