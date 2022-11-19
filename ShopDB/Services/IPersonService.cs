@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using ShopDB.Entities;
 
 namespace ShopDB.Services
 {
@@ -15,7 +13,7 @@ namespace ShopDB.Services
         Task<Person> GetPersonAsync(Expression<Func<Person, bool>> expression);
         IEnumerable<Person> GetPeople(Expression<Func<Person, bool>> predicate);
         Task<IEnumerable<Person>> GetPeopleAsync(Expression<Func<Person, bool>> expression);
-        List<Person> GetSortedPeople();
-        Task<List<Person>> GetSortedPeopleAsync();
+        List<Person> GetSortedPeople<TKey>(Expression<Func<Person, TKey>> expression, SortMode sortMode);
+        Task<List<Person>> GetSortedPeopleAsync<TKey>(Expression<Func<Person, TKey>> expression, SortMode sortMode);
     }
 }

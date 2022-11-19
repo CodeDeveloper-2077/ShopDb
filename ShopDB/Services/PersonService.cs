@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopDB.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -35,20 +36,20 @@ namespace ShopDB.Services
             return person;
         }
 
-        public List<Person> GetSortedPeople()
+        public List<Person> GetSortedPeople<TKey>(Expression<Func<Person, TKey>> expression, SortMode mode)
         {
-            var people = from person in _context.People
-                         orderby person.Name descending
-                         select person;
+            var people = (mode == SortMode.Ascending) 
+                                                        ? _context.People.OrderBy(expression) 
+                                                        : _context.People.OrderByDescending(expression);
 
             return people.ToList();
         }
 
-        public async Task<List<Person>> GetSortedPeopleAsync()
+        public async Task<List<Person>> GetSortedPeopleAsync<TKey>(Expression<Func<Person, TKey>> expression, SortMode mode)
         {
-            var people = from person in _context.People
-                         orderby person.Name descending
-                         select person;
+            var people = (mode == SortMode.Ascending) 
+                                                        ? _context.People.OrderBy(expression) 
+                                                        : _context.People.OrderByDescending(expression);
 
             return await people.ToListAsync();
         }

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Sort.cs" />
     <Compile Include="Exception Handling\ExceptionLogger.cs" />
     <Compile Include="Exception Handling\IExceptionLogger.cs" />
     <Compile Include="Infrastructure.cs" />
