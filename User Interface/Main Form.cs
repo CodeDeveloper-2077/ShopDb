@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using User_Interface.Forms;
+using System.Collections.Generic;
+using User_Interface.Handlers;
+using System.Linq;
 
 namespace User_Interface
 {
@@ -18,9 +20,14 @@ namespace User_Interface
         private readonly ProductTitlesForm _productTitles;
         private readonly StreetsForm _streets;
         private readonly SupermarketsForm _supermarkets;
+        private readonly List<Control> _controls;
+        private readonly ApplicationHandler _applicationHandler;
+        private readonly ButtonHandler _buttonHandler;
 
         public MainForm()
         {
+            InitializeComponent();
+
             _cities = new CitiesForm();
             _customerOrders = new CustomerOrdersForm();
             _customers = new CustomersForm();
@@ -33,7 +40,27 @@ namespace User_Interface
             _streets = new StreetsForm();
             _supermarkets = new SupermarketsForm();
 
-            InitializeComponent();
+            _applicationHandler = new ApplicationHandler();
+            _buttonHandler = new ButtonHandler();
+            _buttonHandler.Successor = _applicationHandler;
+
+            _controls = new List<Control>()
+            {
+                this,
+                openCities,
+                openCustomerOrders,
+                openCustomers,
+                openOrderDetails,
+                openPersonContacts,
+                openPeople,
+                openProductCategories,
+                openProducts,
+                openProductTitles,
+                openStreets,
+                openSupermarkets,
+            };
+            foreach (var control in _controls)
+                control.MouseHover += new EventHandler(control_MouseHover);
         }
 
         private void openCustomers_Click(object sender, EventArgs e)
@@ -89,6 +116,11 @@ namespace User_Interface
         private void openSupermarkets_Click(object sender, EventArgs e)
         {
             _supermarkets.Show(this);
+        }
+
+        private void control_MouseHover(object sender, EventArgs e)
+        {
+            _buttonHandler.HandleRequest(sender as Control);
         }
     }
 }

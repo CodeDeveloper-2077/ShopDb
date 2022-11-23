@@ -122,6 +122,9 @@
     <Compile Include="Forms\SupermarketsForm.Designer.cs">
       <DependentUpon>SupermarketsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ApplicationHandler.cs" />
+    <Compile Include="Handlers\ButtonHandler.cs" />
+    <Compile Include="Handlers\Handler.cs" />
     <Compile Include="Main Form.cs">
       <SubType>Form</SubType>
     </Compile>
